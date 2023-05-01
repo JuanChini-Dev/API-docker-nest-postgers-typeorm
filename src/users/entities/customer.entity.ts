@@ -1,15 +1,22 @@
-import { Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { User } from "./user.entity";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { User } from './user.entity';
 
 @Entity()
 export class Customer {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({type: 'varchar', length: 255})
+  @Column({ type: 'varchar', length: 255 })
   name: string;
 
-  @Column({type: 'varchar', length: 255})
+  @Column({ type: 'varchar', length: 255 })
   lastName: string;
 
   @Column({ type: 'varchar', length: 255 })
@@ -27,6 +34,6 @@ export class Customer {
   })
   updateAt: Date;
 
-  @OneToOne(()=>User, (user)=> user.customer)
-  user:User;
+  @OneToOne(() => User, (user) => user.customer)
+  user: User;
 }

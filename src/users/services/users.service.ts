@@ -8,7 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { ProductsService } from './../../products/services/products.service';
-import { CustomersService } from './customers.service'
+import { CustomersService } from './customers.service';
 
 @Injectable()
 export class UsersService {
@@ -19,38 +19,32 @@ export class UsersService {
     private customersService: CustomersService,
   ) {}
 
-
-
- async findAll() {
+  async findAll() {
     const user = await this.userRepository.find({
       relations: ['customer'],
     });
 
     return user;
-
   }
 
   async findOne(id: number) {
-    const user = await this.userRepository.findOne(id)
-    if (!user){
+    const user = await this.userRepository.findOne(id);
+    if (!user) {
       throw new NotFoundException(`User #${id} not found`);
     }
     return user;
-
   }
 
   async create(data: CreateUserDto) {
     const newUser = this.userRepository.create(data);
-      if(data.customerId){
-        const customer = await this.customersService.findOne(data.customerId);
+    if (data.customerId) {
+      const customer = await this.customersService.findOne(data.customerId);
       newUser.customer = customer;
     }
     return this.userRepository.save(newUser);
   }
 
-
-
- async  update(id: number, changes: UpdateUserDto) {
+  async update(id: number, changes: UpdateUserDto) {
     const user = await this.userRepository.findOne(id);
     if (!user) {
       throw new NotFoundException(`User #${id} not found`);
@@ -67,7 +61,6 @@ export class UsersService {
     return this.userRepository.remove(user);
   }
 
-
   async getOrderByUser(id: number): Promise<Order> {
     const user = await this.userRepository.findOne(id);
     return {
@@ -76,7 +69,4 @@ export class UsersService {
       products: await this.productsService.findAll(),
     };
   }
-
 }
-
-
