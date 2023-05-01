@@ -18,6 +18,8 @@ import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { ParseIntPipe } from '../../common/parse-int.pipe';
 import { CreateProductDto, UpdateProductDto } from '../dtos/products.dtos';
 import { ProductsService } from './../services/products.service';
+import { Product } from '../entities/product.entity';
+import { number } from 'joi';
 
 @ApiTags('products')
 @Controller('products')
@@ -61,12 +63,12 @@ export class ProductsController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() payload: UpdateProductDto) {
+  update(@Param('id') id: number, @Body() payload: UpdateProductDto) {
     return this.productsService.update(+id, payload);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
+  delete(@Param('id') id: number) {
     return this.productsService.remove(+id);
   }
 }
